@@ -47,6 +47,19 @@
 </div>
 
 <script src="./script.js"></script>
+<script>
+  
+  function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
+
+ 
+  if (isMobileDevice()) {
+    var script = document.createElement('script');
+    script.src = './mobile.js';
+    document.body.appendChild(script);
+  }
+</script>
 
 </body>
 </html>
