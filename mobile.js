@@ -18,14 +18,14 @@ class Paper {
   init(paper) {
     paper.addEventListener('touchmove', (e) => {
       e.preventDefault();
-      if(!this.rotating) {
+      if (!this.rotating) {
         this.touchMoveX = e.touches[0].clientX;
         this.touchMoveY = e.touches[0].clientY;
-        
+
         this.velX = this.touchMoveX - this.prevTouchX;
         this.velY = this.touchMoveY - this.prevTouchY;
       }
-        
+
       const dirX = e.touches[0].clientX - this.touchStartX;
       const dirY = e.touches[0].clientY - this.touchStartY;
       const dirLength = Math.sqrt(dirX * dirX + dirY * dirY);
@@ -35,12 +35,12 @@ class Paper {
       const angle = Math.atan2(dirNormalizedY, dirNormalizedX);
       let degrees = 180 * angle / Math.PI;
       degrees = (360 + Math.round(degrees)) % 360;
-      if(this.rotating) {
+      if (this.rotating) {
         this.rotation = degrees;
       }
 
-      if(this.holdingPaper) {
-        if(!this.rotating) {
+      if (this.holdingPaper) {
+        if (!this.rotating) {
           this.currentPaperX += this.velX;
           this.currentPaperY += this.velY;
         }
@@ -52,12 +52,12 @@ class Paper {
     });
 
     paper.addEventListener('touchstart', (e) => {
-      if(this.holdingPaper) return; 
+      if (this.holdingPaper) return;
       this.holdingPaper = true;
-      
+
       paper.style.zIndex = highestZ;
       highestZ += 1;
-      
+
       this.touchStartX = e.touches[0].clientX;
       this.touchStartY = e.touches[0].clientY;
       this.prevTouchX = this.touchStartX;
@@ -83,8 +83,11 @@ class Paper {
 
 document.addEventListener('DOMContentLoaded', () => {
   const backgroundMusic = document.getElementById('backgroundMusic');
+  const playButton = document.createElement('button');
+  playButton.innerText = 'Play Music';
+  document.body.appendChild(playButton);
 
-  document.addEventListener('click', () => {
+  playButton.addEventListener('click', () => {
     backgroundMusic.play().catch((error) => {
       console.log('Autoplay was prevented:', error);
     });
