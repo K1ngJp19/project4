@@ -6,8 +6,6 @@ class Paper {
   touchStartY = 0;
   touchMoveX = 0;
   touchMoveY = 0;
-  touchEndX = 0;
-  touchEndY = 0;
   prevTouchX = 0;
   prevTouchY = 0;
   velX = 0;
@@ -30,7 +28,7 @@ class Paper {
         
       const dirX = e.touches[0].clientX - this.touchStartX;
       const dirY = e.touches[0].clientY - this.touchStartY;
-      const dirLength = Math.sqrt(dirX*dirX+dirY*dirY);
+      const dirLength = Math.sqrt(dirX * dirX + dirY * dirY);
       const dirNormalizedX = dirX / dirLength;
       const dirNormalizedY = dirY / dirLength;
 
@@ -51,7 +49,7 @@ class Paper {
 
         paper.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
       }
-    })
+    });
 
     paper.addEventListener('touchstart', (e) => {
       if(this.holdingPaper) return; 
@@ -65,6 +63,7 @@ class Paper {
       this.prevTouchX = this.touchStartX;
       this.prevTouchY = this.touchStartY;
     });
+
     paper.addEventListener('touchend', () => {
       this.holdingPaper = false;
       this.rotating = false;
@@ -75,15 +74,26 @@ class Paper {
       e.preventDefault();
       this.rotating = true;
     });
+
     paper.addEventListener('gestureend', () => {
       this.rotating = false;
     });
   }
 }
 
-const papers = Array.from(document.querySelectorAll('.paper'));
+document.addEventListener('DOMContentLoaded', () => {
+  const backgroundMusic = document.getElementById('backgroundMusic');
 
-papers.forEach(paper => {
-  const p = new Paper();
-  p.init(paper);
+  document.addEventListener('click', () => {
+    backgroundMusic.play().catch((error) => {
+      console.log('Autoplay was prevented:', error);
+    });
+  });
+
+  const papers = Array.from(document.querySelectorAll('.paper'));
+
+  papers.forEach(paper => {
+    const p = new Paper();
+    p.init(paper);
+  });
 });
