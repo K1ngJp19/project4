@@ -85,14 +85,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const backgroundMusic = document.getElementById('backgroundMusic');
   const playButton = document.createElement('button');
   playButton.innerText = 'Play Music';
+  playButton.style.display = 'none'; // Hide button initially
   document.body.appendChild(playButton);
 
-  playButton.addEventListener('click', () => {
-    backgroundMusic.play().catch((error) => {
+  // Create an interaction listener
+  document.addEventListener('click', () => {
+    backgroundMusic.play().then(() => {
+      console.log('Autoplay started');
+      playButton.style.display = 'none'; // Hide button once music starts
+    }).catch((error) => {
       console.log('Autoplay was prevented:', error);
+      // Show play button if autoplay is prevented
+      playButton.style.display = 'block'; 
     });
   });
 
+  playButton.addEventListener('click', () => {
+    backgroundMusic.play().catch((error) => {
+      console.log('Error playing music:', error);
+    });
+  });
+
+  // Initialize drag functionality
   const papers = Array.from(document.querySelectorAll('.paper'));
 
   papers.forEach(paper => {
